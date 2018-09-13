@@ -75,7 +75,7 @@
 						<a href="${ctx}/act/model/deploy?id=${model.id}" onclick="return confirmx('确认要部署该模型吗？', this.href)">部署</a>
 						<a href="${ctx}/act/model/export?id=${model.id}" target="_blank">导出</a>
 	                    <a href="${ctx}/act/model/delete?id=${model.id}" onclick="return confirmx('确认要删除该模型吗？', this.href)">删除</a>
-					</td>
+					</td> 
 				</tr>
 			</c:forEach>
 		</tbody>

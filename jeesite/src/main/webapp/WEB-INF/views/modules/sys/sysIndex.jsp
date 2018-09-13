@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>${fns:getConfig('productName')}</title>
-	<meta name="decorator" content="blank"/><c:set var="tabmode" value="${empty cookie.tabmode.value ? '0' : cookie.tabmode.value}"/>
+	<meta name="decorator" content="blank"/><c:set var="tabmode" value="${empty cookie.tabmode.value ? '1' : cookie.tabmode.value}"/>
     <c:if test="${tabmode eq '1'}"><link rel="Stylesheet" href="${ctxStatic}/jerichotab/css/jquery.jerichotab.css" />
     <script type="text/javascript" src="${ctxStatic}/jerichotab/js/jquery.jerichotab.js"></script></c:if>
 	<style type="text/css">
@@ -94,8 +94,8 @@
 							return addTab($(this)); // </c:if>
 						});
 						// 默认选中第一个菜单
-						$(menuId + " .accordion-body a:first i").click();
-						$(menuId + " .accordion-body li:first li:first a:first i").click();
+						//$(menuId + " .accordion-body a:first i").click();
+						//$(menuId + " .accordion-body li:first li:first a:first i").click();
 					});
 				}
 				// 大小宽度调整

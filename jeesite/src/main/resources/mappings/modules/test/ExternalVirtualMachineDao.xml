@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.test.dao.ExternalVirtualMachineDao">
+       <sql id="externalVirtualColumns">
+		a.id, 
+		a.ip, 
+		a.virtual_name AS virtualName, 
+		a.constructionNumber, 
+		a.system, 
+		a.device_id AS deviceId, 
+		a.flag
+
+	</sql>
+
+
+	<select id="externalVirtalListUnsynchronizedData" resultType="java.util.Map" > 
+		SELECT 
+			<include refid="externalVirtualColumns"/>
+		FROM external_virtual_machine a
+	    WHERE a.flag='0'
+	    <if test="ip != null and ip != ''">
+			AND a.ip LIKE  CONCAT('%',#{ip},'%')
+	    </if>
+	    <if test="virtualName != null and virtualName != ''">
+			AND a.virtual_name LIKE  CONCAT('%',#{virtualName},'%')
+	    </if>
+	    
+	</select>
+	
+	<select id="findList"  resultType="ExternalVirtualMachine"> 
+		SELECT 
+			<include refid="externalVirtualColumns"/>
+		FROM external_virtual_machine a
+	    WHERE a.flag='0'
+	    
+	</select>
+	
+	
+	
+	<select id="externalVirtalListData" resultType="java.util.Map" > 
+		SELECT 
+			<include refid="externalVirtualColumns"/>
+		FROM external_virtual_machine a
+		WHERE a.flag='1'
+	      AND a.constructionNumber = #{constructionNumber}
+		<if test="ip != null and ip != ''">
+			AND a.ip LIKE  CONCAT('%',#{ip},'%')
+	    </if>
+	    <if test="virtualName != null and virtualName != ''">
+			AND a.virtual_name LIKE  CONCAT('%',#{virtualName},'%')
+	    </if>
+	</select>
+	
+	<update id="update">
+		UPDATE external_virtual_machine SET 
+			flag = '1', 
+			system = #{system}, 
+			constructionNumber = #{constructionNumber}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="cancelExternalVirtalListData">
+		UPDATE external_virtual_machine SET 
+			flag = '0', 
+			system = '', 
+			constructionNumber = ''
+		WHERE id = #{id}
+		  AND constructionNumber = #{constructionNumber}
+	</update>
+	
+	<update id="cancelALLVirtalListData">
+		UPDATE external_virtual_machine SET 
+			flag = '0', 
+			system = '', 
+			constructionNumber = ''
+		WHERE constructionNumber = #{constructionNumber}
+	</update>
+	
+	<select id="returnInterger"  resultType="java.lang.Integer">
+	   SELECT COUNT(a.id) AS num 
+	     FROM external_virtual_machine a 
+		WHERE a.constructionNumber = #{constructionNumber}
+		  AND a.flag = '1'
+	</select>
+	
+</mapper>

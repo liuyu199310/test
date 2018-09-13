@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>登陆成功界面</title>
+    <script src="/WorkJob/static/jquery/jquery-1.8.3.js"></script>
+<link href="/WorkJob/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<script src="/WorkJob/static/bootstrap/2.3.1/js/bootstrap.js"></script>
+<link href="/WorkJob/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet" />
+
+<link href="/WorkJob/static/jquery-select2/3.4/select2.min.css" rel="stylesheet" />
+<script src="/WorkJob/static/jquery-select2/3.4/select2.min.js" type="text/javascript"></script>
+<link href="/WorkJob/static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet" />
+<script src="/WorkJob/static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="/WorkJob/static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
+<script src="/WorkJob/static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="/WorkJob/static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="/WorkJob/static/common/mustache.min.js" type="text/javascript"></script>
+<link href="/WorkJob/static/common/jeesite.css" type="text/css" rel="stylesheet" />
+<script src="/WorkJob/static/common/jeesite.js" type="text/javascript"></script>
+<script src="/WorkJob/static/bootstrap-table/bootstrap-table.js"></script>
+<link href="/WorkJob/static/bootstrap-table/bootstrap-table.css" rel="stylesheet" >
+
+<script src="/WorkJob/static/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="/WorkJob/static/bootstrap-table/extensions/export/bootstrap-table-export.min.js"></script>
+        <script src="/WorkJob/static/rollups/tripledes.js"></script>
+        <script src="/WorkJob/static/components/mode-ecb.js"></script>
+             <script src="/WorkJob/static/components/aes.js"></script>
+   <script type="text/javascript">
+
+
+
+	// 业务图标
+	$(function(){
+		 
+		
+		
+	    initData(); 
+	   
+		//展示图表	
+		showTable();
+		//绑定查询事件
+		$(document).on('click', '#btnSubmit', function() {
+	
+			showTable();
+		});
+		
+		$(document).on('click', '#btnQuit', function() {
+			
+			quit();
+		});
+		
+		 var key = CryptoJS.enc.Utf8.parse("abcdefgabcdefg12");  
+		  
+		    var passwd={}; 
+		    passwd["userBroadband"]="1506098939203";
+		    passwd["userPassword"]="284323";
+		   	console.log(JSON.stringify(passwd));
+		    var plaintText=JSON.stringify(passwd);
+		    
+			console.log(encrypt(plaintText));
+	
+		
+		
+	});
+	
+	function encrypt(word){
+	    var key = CryptoJS.enc.Utf8.parse("abcdefgabcdefg12");
+	    var srcs = CryptoJS.enc.Utf8.parse(word);
+	    var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+	    return encrypted.toString();
+	}
+	
+	 function byteToString(arr) {
+			if(typeof arr === 'string') {
+				return arr;
+			}
+			var str = '',
+				_arr = arr;
+			for(var i = 0; i < _arr.length; i++) {
+				var one = _arr[i].toString(2),
+					v = one.match(/^1+?(?=0)/);
+				if(v && one.length == 8) {
+					var bytesLength = v[0].length;
+					var store = _arr[i].toString(2).slice(7 - bytesLength);
+					for(var st = 1; st < bytesLength; st++) {
+						store += _arr[st + i].toString(2).slice(2);
+					}
+					str += String.fromCharCode(parseInt(store, 2));
+					i += bytesLength - 1;
+				} else {
+					str += String.fromCharCode(_arr[i]);
+				}
+			}
+			return str;
+		}
+	
+	var keyStr = "ABCDEFGHIJKLMNOP" +  
+    "QRSTUVWXYZabcdef" +  
+    "ghijklmnopqrstuv" +  
+    "wxyz0123456789+/" +  
+    "=";  
+
+function encode64(input) {  
+input = escape(input);  
+var output = "";  
+var chr1, chr2, chr3 = "";  
+var enc1, enc2, enc3, enc4 = "";  
+var i = 0;  
+
+do {  
+chr1 = input.charCodeAt(i++);  
+chr2 = input.charCodeAt(i++);  
+chr3 = input.charCodeAt(i++);  
+
+enc1 = chr1 >> 2;  
+enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);  
+enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);  
+enc4 = chr3 & 63;  
+
+if (isNaN(chr2)) {  
+enc3 = enc4 = 64;  
+} else if (isNaN(chr3)) {  
+enc4 = 64;  
+}  
+
+output = output +   
+keyStr.charAt(enc1) +   
+keyStr.charAt(enc2) +   
+keyStr.charAt(enc3) +   
+keyStr.charAt(enc4);  
+chr1 = chr2 = chr3 = "";  
+enc1 = enc2 = enc3 = enc4 = "";  
+} while (i < input.length);  
+
+return output;  
+}  
+
+
+function encryptByDES(message, key) {
+    var keyHex = CryptoJS.enc.Utf8.parse(key);
+    var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+    return encrypted.toString();
+}
+	
+	
+	function quit(){
+		$("#searchForm").submit();
+	}
+	
+	
+	
+	//设置时间
+	function initData(){
+		    var date = new Date();
+			var year = date.getFullYear()+"";
+			var month_temp = date.getMonth()+1;
+			var month = month_temp<10?("0"+month_temp):(""+month_temp);
+			var day = date.getDate()<10?("0"+date.getDate()):(""+date.getDate());
+			var hour = date.getHours()<10?("0"+date.getHours()):(""+date.getHours());
+			var minute = date.getMinutes()<10?("0"+date.getMinutes()):(""+date.getMinutes());
+		    var second = date.getSeconds()<10?("0"+date.getSeconds()):(""+date.getSeconds());
+		    $('#endTime').val(year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second);
+		    var n = 7;
+		    var d = new Date();
+		    var yearl = d.getFullYear();
+	        var monl=d.getMonth()+1;
+		    var dayl=d.getDate();
+	        if(dayl <= n){
+	          if(monl>1) {
+	             monl=monl-1;
+	          }
+	          else {
+	             yearl = yearl-1;
+	             monl = 12;
+	          }
+	        }
+	        d.setDate(d.getDate()-n);
+	        yearl = d.getFullYear();           
+	        monl=d.getMonth()+1;
+	        dayl=d.getDate();
+		$('#beginTime').val(yearl+"-"+(monl<10?('0'+monl):monl)+"-"+(dayl<10?('0'+dayl):dayl)+" "+"00"+":"+"00"+":"+"00");
+	
+	}
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	//表单的数据加载
+	function showTable(){
+		var columns=[];
+		columns = [
+	        {title:"序号",field:"createtime",align: "center", valign:"middle",formatter: function (value, row, index) {  
+	    	    var pageSize=$('#detailTable').bootstrapTable('getOptions').pageSize;
+	            var pageNumber=$('#detailTable').bootstrapTable('getOptions').pageNumber;  
+	            return pageSize * (pageNumber - 1) + index + 1;   
+	        } },
+	        {title:"用户名",field:"username",align: "center", valign:"middle"},
+			{title:"事件",field:"message",align: "center", valign:"middle" },
+			{title:"产生时间",field:"createDate",align: "center", valign:"middle"}
+		];
+				
+		$("#detailTable").bootstrapTable('destroy').bootstrapTable({
+			url: "/WorkJob/getUserLogInforListData", 
+			method: "post",
+			contentType: "application/x-www-form-urlencoded",
+			dataType: "json",
+			pagination: true, //分页
+			clickToSelect: true,  
+			sidePagination: "server", //服务端处理分页
+			queryParams: queryParams,
+			uniqueId: "id",
+			pageSize: 10,			//每页的记录行数（*）
+			pageList: [10,20,50,100],	//可供选择的每页的行数（*）
+			queryParamsType: "limit",	
+			paginationPreText: "上一页",
+			paginationNextText: "下一页",
+			columns: columns
+		});	
+	
+		
+	}
+	
+	//加载参数
+	function queryParams(params){
+		var pageNo=parseInt(params.offset)/parseInt(params.limit)+1;
+		
+		return $("#searchForm").serialize()+"&pageSize="+params.limit+"&pageNo="+pageNo;
+	}
+	
+	
+	
+	
+	
+	
+	
+			  
+	</script>
+</head>
+
+<body>
+
+	<form id="searchForm" action="/WorkJob/quit"  class="breadcrumb form-search" method="POST">	
+	
+
+			<ul class="ul-form">
+	 	
+	
+				<li ><label>开始时间：</label>
+			         <input name="beginDate" id="beginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				</li>
+				
+				<li><label>结束时间：</label>
+	                <input name="endDate" id="endTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"	
+			        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					</span>
+				</li>
+				
+				<li class="btns">
+			   &nbsp;<input id="btnSubmit" style="margin-left: 20px;" class="btn btn-primary" type="button"  value="查询"/>
+			   </li>
+			</ul>
+			
+			
+		</form>
+	
+	
+	
+		
+	<div class="container-fluid" style="width:95%" >
+		 
+		  <div class=row-fluid> 
+	
+				<table  id="detailTable" ></table>	
+				</div>
+			  
+		   </div>
+	
+	</div>
+</body>
+
+</html>
